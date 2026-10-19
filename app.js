@@ -334,12 +334,35 @@ function createNavHotspot(hotSpotDiv, labelText, targetSceneId) {
  * Info Hotspot Element
  */
 function createInfoHotspot(hotSpotDiv, title, description) {
-  hotSpotDiv.innerHTML = `<span>+</span>`;
+  hotSpotDiv.innerHTML = `
+    <div class="hotspot-info-wrapper">
+      <div class="hotspot-info-pulse"></div>
+      <button type="button" class="hotspot-info-btn" aria-label="${title}">
+        <svg class="hotspot-plus-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+      <div class="hotspot-info-tag">
+        <span class="hotspot-tag-kicker">MİMARİ DETAY</span>
+        <span class="hotspot-tag-title">${title}</span>
+      </div>
+    </div>
+  `;
 
-  hotSpotDiv.addEventListener("click", (e) => {
+  let lastTriggered = 0;
+  const triggerOpen = (e) => {
+    const now = Date.now();
+    if (now - lastTriggered < 250) return; // Prevent double trigger on touch+click
+    lastTriggered = now;
+
+    if (e.cancelable) e.preventDefault();
     e.stopPropagation();
     showInfoModal(title, description);
-  });
+  };
+
+  hotSpotDiv.addEventListener("click", triggerOpen);
+  hotSpotDiv.addEventListener("touchend", triggerOpen);
 }
 
 /**
@@ -449,11 +472,29 @@ function setupHUDControls() {
     });
   }
 
-  // Info Modal Close
+  // Info Modal Close & Backdrop Click
+  const modal = document.getElementById("info-modal");
   const modalClose = document.getElementById("modal-close");
+
   if (modalClose) {
-    modalClose.addEventListener("click", () => {
-      document.getElementById("info-modal").classList.remove("active");
+    modalClose.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeInfoModal();
+    });
+  }
+
+  if (modal) {
+    // Clicking backdrop (outside the card) dismisses modal
+    modal.addEventListener("click", (e) => {
+      const card = modal.querySelector(".info-modal-card");
+      if (card && !card.contains(e.target)) {
+        closeInfoModal();
+      }
+    });
+
+    // Native cancel event (e.g. Esc key pressed on dialog)
+    modal.addEventListener("cancel", (e) => {
+      modal.classList.remove("active");
     });
   }
 
@@ -471,7 +512,7 @@ function setupHUDControls() {
 }
 
 /**
- * Info Modal Helper
+ * Info Modal Helpers
  */
 function showInfoModal(title, description) {
   const modal = document.getElementById("info-modal");
@@ -481,7 +522,32 @@ function showInfoModal(title, description) {
   if (modal && modalTitle && modalBody) {
     modalTitle.textContent = title;
     modalBody.textContent = description;
+
+    // Use native showModal when available, fallback to attribute/class
+    if (typeof modal.showModal === "function") {
+      try {
+        if (!modal.open) {
+          modal.showModal();
+        }
+      } catch (err) {
+        modal.setAttribute("open", "");
+      }
+    } else {
+      modal.setAttribute("open", "");
+    }
     modal.classList.add("active");
+  }
+}
+
+function closeInfoModal() {
+  const modal = document.getElementById("info-modal");
+  if (modal) {
+    modal.classList.remove("active");
+    if (typeof modal.close === "function" && modal.open) {
+      modal.close();
+    } else {
+      modal.removeAttribute("open");
+    }
   }
 }
 
@@ -493,8 +559,8 @@ function setupKeyboardControls() {
     // Escape closes modal or collapses stage
     if (e.key === "Escape") {
       const modal = document.getElementById("info-modal");
-      if (modal && modal.classList.contains("active")) {
-        modal.classList.remove("active");
+      if (modal && (modal.classList.contains("active") || modal.open)) {
+        closeInfoModal();
         return;
       }
       if (isExpanded) {
