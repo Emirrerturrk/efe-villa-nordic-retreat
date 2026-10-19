@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Efe Villa · Nordic Retreat | 360° Mimari Sanal Deneyim</title>
+  <meta name="description" content="OFC Mimarlık tarzında minimalist, brütalist İskandinav mimarisi 360 derece etkileşimli sanal turu.">
+
+  <!-- Vendor Styles & Design System -->
+  <link rel="stylesheet" href="assets/vendor/pannellum.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP ARCHITECTURAL NAVBAR (Identical to ofcmimarlik.com)
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-container">
+      
+      <!-- Brand & Identity -->
+      <a href="/" class="brand-identity">
+        <div class="brand-monogram">E</div>
+        <div class="brand-meta">
+          <span class="brand-meta-title">Efe Villa · Mimari</span>
+          <span class="brand-meta-subtitle">ESKİŞEHİR · EST. 2021</span>
+        </div>
+      </a>
+
+      <!-- Desktop Minimal Navigation -->
+      <nav class="header-nav" aria-label="Ana Menü">
+        <a href="#hero" class="nav-link active">Seçili Vitrin</a>
+        <a href="#hero" class="nav-link" id="nav-open-tour">360° Keşif</a>
+        <a href="#konsept" class="nav-link" id="nav-open-concept">Mimari Künye</a>
+      </nav>
+
+      <!-- Live Status Badge -->
+      <div class="header-status-pill">
+        <span class="status-live-dot"></span>
+        <span>360° Canlı Simülasyon</span>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO SHOWCASE SECTION
+       ======================================================================== -->
+  <main class="hero-section" id="hero">
+    <div class="hero-inner">
+
+      <!-- Project Headline Ribbon -->
+      <div class="project-headline-ribbon">
+        <div>
+          <div class="ribbon-kicker">
+            <span class="ribbon-kicker-bold">SEÇİLİ VİTRİN 01 / 01</span>
+            <span>·</span>
+            <span>360° İNTERAKTİF SANAL DENEYİM</span>
+          </div>
+          <h1 class="project-title">Efe Villa · Nordic Retreat</h1>
+        </div>
+
+        <!-- Architectural Specifications -->
+        <div class="project-spec-strip">
+          <div class="spec-item">
+            <span class="spec-label">Konum</span>
+            <span class="spec-value">İskandinavya</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Alan</span>
+            <span class="spec-value">480 m²</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Yıl</span>
+            <span class="spec-value">2026</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Deneyim</span>
+            <span class="spec-value accent">360° Gezilebilir</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           HERO ARCHITECTURAL STAGE (THE INTERACTIVE 360 VIEWER)
+           Default: Centered minimal frame in Hero.
+           Click: Smoothly expands to fill 100% of the screen.
+           ==================================================================== -->
+      <div class="hero-stage" id="hero-stage" title="360° Sanal Turu Başlat">
+        
+        <!-- Preview Cover (Click to expand) -->
+        <div class="stage-preview-layer" id="stage-preview">
+          <img class="preview-img" src="assets/panoramas/entrance_deck.jpg" alt="Efe Villa Giriş">
+          
+          <div class="preview-scrim">
+            <div class="trigger-badge">
+              <div class="trigger-circle-btn">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+              </div>
+              <div>
+                <p class="trigger-badge-title">360° Sanal Turu Başlat</p>
+                <p class="trigger-badge-sub">Evi tam ekran keşfetmek için tıklayın</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage-chip-tl">01 · DIŞ İSKELE & GİRİŞ KAPISI</div>
+          <div class="stage-chip-br">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>5 MEKAN · 360° DÖNEBİLİR</span>
+          </div>
+        </div>
+
+        <!-- 360 Panorama Canvas Container -->
+        <div id="panorama-container"></div>
+
+        <!-- Close / Collapse Button (Shown when expanded) -->
+        <button id="btn-collapse" class="btn-collapse-stage" title="Görünümü Küçült">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          <span>Görünümü Küçült (Esc)</span>
+        </button>
+
+        <!-- Cinematic Curtain for Scene Transitions -->
+        <div id="transition-curtain"></div>
+
+        <!-- Inside Tour HUD Layer -->
+        <div class="tour-hud" id="tour-hud">
+          
+          <!-- Top HUD -->
+          <div class="tour-hud-top">
+            <div class="tour-room-badge">
+              <span class="status-live-dot"></span>
+              <span id="active-room-name">Dış İskele · Giriş Kapısı</span>
+            </div>
+
+            <div class="tour-hud-actions">
+              <button id="btn-audio" class="hud-btn" title="Ambiyans Sesi (Şömine & Rüzgar)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                </svg>
+              </button>
+
+              <button id="btn-autorotate" class="hud-btn" title="Otomatik Döndür">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom HUD -->
+          <div class="tour-hud-bottom">
+            
+            <!-- Quick Room Selector Dock -->
+            <nav class="tour-room-dock" aria-label="Odalar Arası Hızlı Geçiş">
+              <button class="room-chip-btn active" data-scene="entrance">
+                <img class="room-chip-img" src="assets/panoramas/entrance_deck.jpg" alt="Dış İskele">
+                <span class="room-chip-title">Dış İskele</span>
+              </button>
+              <button class="room-chip-btn" data-scene="living_room">
+                <img class="room-chip-img" src="assets/panoramas/living_room.jpg" alt="Ana Salon">
+                <span class="room-chip-title">Ana Salon</span>
+              </button>
+              <button class="room-chip-btn" data-scene="kitchen">
+                <img class="room-chip-img" src="assets/panoramas/kitchen_dining.jpg" alt="Mutfak">
+                <span class="room-chip-title">Mutfak & Bar</span>
+              </button>
+              <button class="room-chip-btn" data-scene="stone_lounge">
+                <img class="room-chip-img" src="assets/panoramas/stone_lounge.jpg" alt="Taş Şömine">
+                <span class="room-chip-title">Taş Salon</span>
+              </button>
+              <button class="room-chip-btn" data-scene="bedroom">
+                <img class="room-chip-img" src="assets/panoramas/bedroom.jpg" alt="Yatak Odası">
+                <span class="room-chip-title">Yatak Odası</span>
+              </button>
+            </nav>
+
+            <!-- 2D Floor Plan with Real-time Radar FOV -->
+            <aside class="tour-radar-box">
+              <span class="radar-caption">Kat Planı & Radar</span>
+              <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+                <rect x="15" y="15" width="70" height="70" rx="2" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                <line x1="15" y1="50" x2="50" y2="50" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2 2"/>
+                <line x1="50" y1="15" x2="50" y2="85" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2 2"/>
+                
+                <rect x="35" y="85" width="30" height="12" fill="none" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
+                <line x1="42" y1="85" x2="58" y2="85" stroke="rgba(212,175,55,0.9)" stroke-width="2"/>
+
+                <g id="radar-fov-cone">
+                  <path d="M 50 88 L 30 50 A 45 45 0 0 1 70 50 Z" fill="rgba(212,175,55,0.4)"/>
+                </g>
+
+                <circle id="radar-marker" cx="50" cy="88" r="3" fill="#d4af37" stroke="#fff" stroke-width="1.5"/>
+              </svg>
+            </aside>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Architectural Detail Modal -->
+  <dialog id="info-modal" class="info-modal">
+    <div class="info-modal-header">
+      <h2 id="modal-title" class="info-modal-title">Mimari Detay</h2>
+      <button id="modal-close" class="info-modal-close" aria-label="Kapat">&times;</button>
+    </div>
+    <p id="modal-body" class="info-modal-body"></p>
+  </dialog>
+
+  <!-- Scripts -->
+  <script src="assets/vendor/pannellum.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
