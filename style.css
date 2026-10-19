@@ -314,27 +314,32 @@ html, body {
 
 /* ==========================================================================
    HERO ARCHITECTURAL STAGE (THE CORE INTERACTIVE COMPONENT)
+   PC: Framed 16:9 Architectural Stage in Hero (Razor-Sharp WebP)
+   Mobile: Seamless Full-Screen Immersive Touch Viewport
    ========================================================================== */
 .hero-stage {
   position: relative;
   width: 100%;
-  flex: 1;
-  min-height: 380px;
-  max-height: 70vh;
+  max-width: 1360px;
+  height: 640px;
+  min-height: 520px;
+  max-height: calc(100vh - 220px);
+  aspect-ratio: 16 / 9;
   background: #0d0f12;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 8px;
   overflow: hidden;
-  cursor: pointer;
+  margin: 0 auto;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
   transition: transform 0.6s var(--ease-out-expo), box-shadow 0.6s var(--ease-out-expo);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 .hero-stage:hover:not(.is-expanded) {
-  border-color: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.28);
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.12);
 }
 
-/* EXPANDED FULL-HERO MODE */
+/* EXPANDED FULL-HERO MODE (When clicking Fullscreen Toggle) */
 .hero-stage.is-expanded {
   position: fixed !important;
   top: 0 !important;
@@ -342,35 +347,20 @@ html, body {
   width: 100vw !important;
   height: 100vh !important;
   max-height: 100vh !important;
+  border-radius: 0 !important;
   z-index: 100 !important;
   border: none !important;
-  cursor: default !important;
   box-shadow: none !important;
-  animation: expand-stage 0.55s var(--ease-out-expo) forwards;
+  animation: expand-stage 0.5s var(--ease-out-expo) forwards;
 }
 
 @keyframes expand-stage {
   from {
-    opacity: 0.9;
+    opacity: 0.92;
   }
   to {
     opacity: 1;
   }
-}
-
-/* Preview Poster Layer (Visible before clicking) */
-.stage-preview-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  transition: opacity 0.5s ease;
-}
-
-.hero-stage.is-expanded .stage-preview-layer {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .preview-img {
@@ -542,13 +532,10 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   padding: 24px 32px;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 
-.hero-stage.is-expanded .tour-hud {
-  opacity: 1;
-}
 
 .tour-hud-top {
   display: flex;
@@ -832,10 +819,39 @@ html, body {
   display: none !important;
 }
 
-/* Responsive tweaks */
+/* Responsive: Mobile Full-Screen Immersion & Touch Viewport */
 @media (max-width: 768px) {
+  .hero-section {
+    padding: 0 !important;
+    min-height: 100vh;
+  }
+  .project-headline-ribbon {
+    display: none;
+  }
+  .site-header {
+    background: transparent;
+    border-bottom: none;
+    pointer-events: none;
+  }
+  .site-header .brand-identity,
+  .site-header .header-status-pill {
+    pointer-events: auto;
+  }
+  .hero-stage {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    z-index: 50 !important;
+  }
   .tour-hud {
     padding: 16px;
+    padding-top: 84px;
+    padding-bottom: 24px;
   }
   .tour-hud-actions {
     margin-right: 0;
@@ -843,6 +859,7 @@ html, body {
   .tour-room-dock {
     max-width: 100%;
     overflow-x: auto;
+    padding-bottom: 6px;
   }
   .room-chip-title {
     display: none;
@@ -850,13 +867,12 @@ html, body {
   .tour-radar-box {
     display: none;
   }
-  .btn-collapse-stage {
-    top: 16px;
-    right: 16px;
-    padding: 8px 14px;
-    font-size: 10px;
+  .btn-collapse-stage,
+  #btn-fullscreen {
+    display: none !important;
   }
 }
+
 
 /* ==========================================================================
    WebGL & Canvas High-DPI Smooth Filtering Optimization

@@ -83,49 +83,21 @@
 
       <!-- ====================================================================
            HERO ARCHITECTURAL STAGE (THE INTERACTIVE 360 VIEWER)
-           Default: Centered minimal frame in Hero.
-           Click: Smoothly expands to fill 100% of the screen.
+           PC: Framed 16:9 Architectural Stage in Hero (Razor-Sharp WebP)
+           Mobile: Seamless Full-Screen Immersive Touch Viewport
            ==================================================================== -->
-      <div class="hero-stage" id="hero-stage" title="360° Sanal Turu Başlat">
+      <div class="hero-stage" id="hero-stage">
         
-        <!-- Preview Cover (Click to expand) -->
-        <div class="stage-preview-layer" id="stage-preview">
-          <img class="preview-img" src="assets/panoramas/entrance_deck.jpg" alt="Efe Villa Giriş">
-          
-          <div class="preview-scrim">
-            <div class="trigger-badge">
-              <div class="trigger-circle-btn">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                </svg>
-              </div>
-              <div>
-                <p class="trigger-badge-title">360° Sanal Turu Başlat</p>
-                <p class="trigger-badge-sub">Evi tam ekran keşfetmek için tıklayın</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="stage-chip-tl">01 · DIŞ İSKELE & GİRİŞ KAPISI</div>
-          <div class="stage-chip-br">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span>5 MEKAN · 360° DÖNEBİLİR</span>
-          </div>
-        </div>
-
         <!-- 360 Panorama Canvas Container -->
         <div id="panorama-container"></div>
 
-        <!-- Close / Collapse Button (Shown when expanded) -->
-        <button id="btn-collapse" class="btn-collapse-stage" title="Görünümü Küçült">
+        <!-- Close / Collapse Button (Shown when in expanded mode) -->
+        <button id="btn-collapse" class="btn-collapse-stage" title="Çerçeve Görünümüne Dön">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
-          <span>Görünümü Küçült (Esc)</span>
+          <span>Çerçeveye Dön (Esc)</span>
         </button>
 
         <!-- Cinematic Curtain for Scene Transitions -->
@@ -153,6 +125,15 @@
               <button id="btn-autorotate" class="hud-btn" title="Otomatik Döndür">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+              </button>
+
+              <button id="btn-fullscreen" class="hud-btn" title="Tam Ekran / Çerçeve Modu">
+                <svg class="icon-expand" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+                <svg class="icon-shrink" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                  <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>
                 </svg>
               </button>
             </div>

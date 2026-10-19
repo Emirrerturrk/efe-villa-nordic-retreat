@@ -7,16 +7,7 @@ const SCENES = {
   entrance: {
     id: "entrance",
     title: "Dış İskele · Giriş Kapısı",
-    panorama: "assets/panoramas/entrance_deck.jpg",
-    multiRes: {
-      basePath: "assets/panoramas/multires/entrance",
-      path: "/%l/%s%y_%x",
-      fallbackPath: "/fallback/%s",
-      extension: "jpg",
-      tileResolution: 512,
-      maxLevel: 4,
-      cubeResolution: 4096
-    },
+    panorama: "assets/panoramas/entrance_deck.webp",
     initialPitch: 0,
     initialYaw: 0,
     mapCoords: { x: 50, y: 88 },
@@ -40,16 +31,7 @@ const SCENES = {
   living_room: {
     id: "living_room",
     title: "Ana Salon · Galeri Boşluğu",
-    panorama: "assets/panoramas/living_room.jpg",
-    multiRes: {
-      basePath: "assets/panoramas/multires/living_room",
-      path: "/%l/%s%y_%x",
-      fallbackPath: "/fallback/%s",
-      extension: "jpg",
-      tileResolution: 512,
-      maxLevel: 4,
-      cubeResolution: 4096
-    },
+    panorama: "assets/panoramas/living_room.webp",
     initialPitch: 0,
     initialYaw: 0,
     mapCoords: { x: 50, y: 55 },
@@ -101,16 +83,7 @@ const SCENES = {
   kitchen: {
     id: "kitchen",
     title: "Mutfak & Yemek Alanı",
-    panorama: "assets/panoramas/kitchen_dining.jpg",
-    multiRes: {
-      basePath: "assets/panoramas/multires/kitchen",
-      path: "/%l/%s%y_%x",
-      fallbackPath: "/fallback/%s",
-      extension: "jpg",
-      tileResolution: 512,
-      maxLevel: 4,
-      cubeResolution: 4096
-    },
+    panorama: "assets/panoramas/kitchen_dining.webp",
     initialPitch: 0,
     initialYaw: 0,
     mapCoords: { x: 75, y: 40 },
@@ -141,16 +114,7 @@ const SCENES = {
   stone_lounge: {
     id: "stone_lounge",
     title: "Doğal Taş Şömine Salonu",
-    panorama: "assets/panoramas/stone_lounge.jpg",
-    multiRes: {
-      basePath: "assets/panoramas/multires/stone_lounge",
-      path: "/%l/%s%y_%x",
-      fallbackPath: "/fallback/%s",
-      extension: "jpg",
-      tileResolution: 512,
-      maxLevel: 4,
-      cubeResolution: 4096
-    },
+    panorama: "assets/panoramas/stone_lounge.webp",
     initialPitch: 0,
     initialYaw: 0,
     mapCoords: { x: 25, y: 45 },
@@ -181,16 +145,7 @@ const SCENES = {
   bedroom: {
     id: "bedroom",
     title: "Yatak Odası Süiti",
-    panorama: "assets/panoramas/bedroom.jpg",
-    multiRes: {
-      basePath: "assets/panoramas/multires/bedroom",
-      path: "/%l/%s%y_%x",
-      fallbackPath: "/fallback/%s",
-      extension: "jpg",
-      tileResolution: 512,
-      maxLevel: 4,
-      cubeResolution: 4096
-    },
+    panorama: "assets/panoramas/bedroom.webp",
     initialPitch: 0,
     initialYaw: 0,
     mapCoords: { x: 50, y: 20 },
@@ -228,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Initialize Pannellum 360 viewer
+ * Initialize Pannellum 360 viewer (High-Performance Lightweight WebP Edition)
  */
 function initViewer() {
   const pannellumScenes = {};
@@ -236,13 +191,13 @@ function initViewer() {
   for (const [key, scene] of Object.entries(SCENES)) {
     pannellumScenes[key] = {
       title: scene.title,
-      type: "multires",
-      multiRes: scene.multiRes,
+      type: "equirectangular",
+      panorama: scene.panorama,
       pitch: scene.initialPitch,
       yaw: scene.initialYaw,
-      hfov: 105,
-      minHfov: 30,
-      maxHfov: 125,
+      hfov: 100,
+      minHfov: 60,
+      maxHfov: 120,
       autoLoad: true,
       showZoomCtrl: false,
       showFullscreenCtrl: false,
@@ -254,7 +209,7 @@ function initViewer() {
   viewer = pannellum.viewer("panorama-container", {
     default: {
       firstScene: "entrance",
-      sceneFadeDuration: 600,
+      sceneFadeDuration: 500,
       autoLoad: true
     },
     scenes: pannellumScenes
@@ -265,21 +220,21 @@ function initViewer() {
     updateSceneUI(newSceneId);
   });
 
-  // Track yaw for radar FOV cone
+  // Track yaw for radar FOV cone (runs continuously in framed and full mode)
   setInterval(() => {
-    if (viewer && isExpanded) {
+    if (viewer) {
       updateRadar();
     }
   }, 40);
 }
 
 /**
- * Setup Click-to-Expand Stage Interaction (Apple / OFC Mimarlık Style)
+ * Setup Framed vs Fullscreen Stage Toggle Interaction
  */
 function setupStageExpandInteraction() {
   const stage = document.getElementById("hero-stage");
-  const stagePreview = document.getElementById("stage-preview");
   const btnCollapse = document.getElementById("btn-collapse");
+  const btnFullscreen = document.getElementById("btn-fullscreen");
   const navOpenTour = document.getElementById("nav-open-tour");
 
   const expandStage = () => {
@@ -288,13 +243,19 @@ function setupStageExpandInteraction() {
     stage.classList.add("is-expanded");
     document.body.style.overflow = "hidden"; // Prevent background scroll
 
-    // Trigger viewer resize
+    if (btnFullscreen) {
+      const exp = btnFullscreen.querySelector(".icon-expand");
+      const shr = btnFullscreen.querySelector(".icon-shrink");
+      if (exp) exp.style.display = "none";
+      if (shr) shr.style.display = "block";
+    }
+
     setTimeout(() => {
       if (viewer) viewer.resize();
     }, 150);
     setTimeout(() => {
       if (viewer) viewer.resize();
-    }, 600);
+    }, 500);
   };
 
   const collapseStage = () => {
@@ -303,15 +264,30 @@ function setupStageExpandInteraction() {
     stage.classList.remove("is-expanded");
     document.body.style.overflow = "";
 
+    if (btnFullscreen) {
+      const exp = btnFullscreen.querySelector(".icon-expand");
+      const shr = btnFullscreen.querySelector(".icon-shrink");
+      if (exp) exp.style.display = "block";
+      if (shr) shr.style.display = "none";
+    }
+
     setTimeout(() => {
       if (viewer) viewer.resize();
-    }, 400);
+    }, 350);
   };
 
-  // Click on stage preview expands to full screen
-  stagePreview.addEventListener("click", expandStage);
+  if (btnFullscreen) {
+    btnFullscreen.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (isExpanded) {
+        collapseStage();
+      } else {
+        expandStage();
+      }
+    });
+  }
 
-  // Click on top nav "360° Keşif" also expands stage
+  // Click on top nav "360° Keşif" toggles/expands stage
   if (navOpenTour) {
     navOpenTour.addEventListener("click", (e) => {
       e.preventDefault();
@@ -320,9 +296,18 @@ function setupStageExpandInteraction() {
   }
 
   // Click on collapse button restores hero frame
-  btnCollapse.addEventListener("click", (e) => {
-    e.stopPropagation();
-    collapseStage();
+  if (btnCollapse) {
+    btnCollapse.addEventListener("click", (e) => {
+      e.stopPropagation();
+      collapseStage();
+    });
+  }
+
+  // Escape key collapses fullscreen back to frame
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isExpanded) {
+      collapseStage();
+    }
   });
 }
 
