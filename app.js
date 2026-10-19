@@ -428,13 +428,22 @@ function updateRadar() {
  * HUD & Modal Controls
  */
 function setupHUDControls() {
-  // Room chip buttons
+  // Room chip buttons (Fast 0ms touch + click response)
   document.querySelectorAll(".room-chip-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    let lastTap = 0;
+    const handleRoomSelect = (e) => {
+      const now = Date.now();
+      if (now - lastTap < 250) return; // Prevent duplicate touch+click
+      lastTap = now;
+
+      if (e.cancelable) e.preventDefault();
       e.stopPropagation();
       const sceneId = btn.dataset.scene;
       navigateToScene(sceneId);
-    });
+    };
+
+    btn.addEventListener("click", handleRoomSelect);
+    btn.addEventListener("touchend", handleRoomSelect);
   });
 
   // Auto-Rotate Toggle

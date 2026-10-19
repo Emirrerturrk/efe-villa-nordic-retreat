@@ -598,7 +598,7 @@ html, body {
   align-items: flex-end;
   justify-content: space-between;
   width: 100%;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 /* Minimalist Room Selector Dock */
@@ -608,9 +608,11 @@ html, body {
   gap: 8px;
   background: rgba(18, 19, 22, 0.85);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 8px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   margin: 0 auto;
+  pointer-events: auto;
 }
 
 .room-chip-btn {
@@ -626,6 +628,7 @@ html, body {
   font-size: 12px;
   font-weight: 500;
   transition: all 0.25s ease;
+  touch-action: manipulation;
 }
 
 .room-chip-img {
@@ -633,6 +636,10 @@ html, body {
   height: 36px;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 .room-chip-btn:hover {
@@ -661,6 +668,7 @@ html, body {
   position: relative;
   display: flex;
   flex-direction: column;
+  pointer-events: auto;
 }
 
 .radar-caption {
@@ -1014,6 +1022,7 @@ dialog.info-modal::backdrop {
   .hero-section {
     padding: 0 !important;
     min-height: 100vh;
+    min-height: 100dvh;
   }
   .project-headline-ribbon {
     display: none;
@@ -1033,26 +1042,80 @@ dialog.info-modal::backdrop {
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    max-height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
     border-radius: 0 !important;
     border: none !important;
     z-index: 50 !important;
   }
   .tour-hud {
     padding: 16px;
-    padding-top: 84px;
-    padding-bottom: 24px;
+    padding-top: max(84px, calc(env(safe-area-inset-top, 0px) + 64px));
+    /* Lift up well above the bottom navigation bar and iPhone home indicator */
+    padding-bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 32px));
+    box-sizing: border-box;
   }
   .tour-hud-actions {
     margin-right: 0;
   }
+  .tour-hud-bottom {
+    pointer-events: none;
+    justify-content: center;
+    width: 100%;
+  }
   .tour-room-dock {
-    max-width: 100%;
+    max-width: calc(100vw - 32px);
     overflow-x: auto;
-    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: rgba(18, 19, 22, 0.94);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 40px;
+    padding: 6px 12px;
+    gap: 8px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    pointer-events: auto;
+    z-index: 100;
+  }
+  .tour-room-dock::-webkit-scrollbar {
+    display: none;
   }
   .room-chip-title {
     display: none;
+  }
+  .room-chip-btn {
+    padding: 3px;
+    border-radius: 50%;
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .room-chip-btn:active {
+    transform: scale(0.92);
+  }
+  .room-chip-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.28);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .room-chip-btn.active .room-chip-img {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.75);
+    transform: scale(1.06);
   }
   .tour-radar-box {
     display: none;
