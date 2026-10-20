@@ -488,6 +488,12 @@ html, body {
   z-index: 1;
 }
 
+#panorama-container canvas {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  outline: none;
+}
+
 /* Close / Collapse Button in Expanded Mode */
 .btn-collapse-stage {
   position: absolute;

@@ -1,6 +1,7 @@
 /**
  * EFE VILLA · NORDIC RETREAT
- * Architectural 360° Virtual Experience (OFC Mimarlık Minimalist Edition)
+ * Architectural 180° Virtual Experience (OFC Mimarlık Minimalist Edition)
+ * Front-Stage Panoramic View with Ultra-HD 4K Razor-Sharp Precision
  */
 
 const SCENES = {
@@ -37,27 +38,6 @@ const SCENES = {
     mapCoords: { x: 50, y: 55 },
     hotSpots: [
       {
-        pitch: -5,
-        yaw: 180,
-        type: "custom",
-        cssClass: "custom-hotspot-nav",
-        createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Dışarı Çık (İskele) 🌲", "entrance")
-      },
-      {
-        pitch: -3,
-        yaw: 38,
-        type: "custom",
-        cssClass: "custom-hotspot-nav",
-        createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Mutfak & Bar 🍳", "kitchen")
-      },
-      {
-        pitch: -4,
-        yaw: -60,
-        type: "custom",
-        cssClass: "custom-hotspot-nav",
-        createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Şömine Salonu 🔥", "stone_lounge")
-      },
-      {
         pitch: 16,
         yaw: 0,
         type: "custom",
@@ -65,8 +45,29 @@ const SCENES = {
         createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Yatak Odası Süiti (Üst Kat) 🛏️", "bedroom")
       },
       {
+        pitch: -3,
+        yaw: 42,
+        type: "custom",
+        cssClass: "custom-hotspot-nav",
+        createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Mutfak & Bar 🍳", "kitchen")
+      },
+      {
+        pitch: -4,
+        yaw: -55,
+        type: "custom",
+        cssClass: "custom-hotspot-nav",
+        createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Şömine Salonu 🔥", "stone_lounge")
+      },
+      {
+        pitch: -6,
+        yaw: -82,
+        type: "custom",
+        cssClass: "custom-hotspot-nav",
+        createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Dış İskele (Çıkış) 🌲", "entrance")
+      },
+      {
         pitch: -14,
-        yaw: -62,
+        yaw: -58,
         type: "custom",
         cssClass: "custom-hotspot-info",
         createTooltipFunc: (hotSpotDiv) => createInfoHotspot(hotSpotDiv, "Lineer Bioethanol Şömine", "Baca gerektirmeyen, temiz yanan gerçek alevli mimari lineer şömine ünitesi.")
@@ -89,22 +90,22 @@ const SCENES = {
     mapCoords: { x: 75, y: 40 },
     hotSpots: [
       {
-        pitch: -4,
-        yaw: -150,
+        pitch: -5,
+        yaw: -75,
         type: "custom",
         cssClass: "custom-hotspot-nav",
         createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Ana Salona Dön 🛋️", "living_room")
       },
       {
         pitch: -3,
-        yaw: -115,
+        yaw: -45,
         type: "custom",
         cssClass: "custom-hotspot-nav",
         createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Şömine Salonu 🔥", "stone_lounge")
       },
       {
         pitch: -12,
-        yaw: 42,
+        yaw: 40,
         type: "custom",
         cssClass: "custom-hotspot-info",
         createTooltipFunc: (hotSpotDiv) => createInfoHotspot(hotSpotDiv, "Nero Marquina Mermer Ada", "Masif tek parça damarlı İspanyol mermerinden oyulmuş ankastre pişirme ve bar adası.")
@@ -120,15 +121,15 @@ const SCENES = {
     mapCoords: { x: 25, y: 45 },
     hotSpots: [
       {
-        pitch: -4,
-        yaw: -160,
+        pitch: -5,
+        yaw: -75,
         type: "custom",
         cssClass: "custom-hotspot-nav",
         createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Ana Salona Dön 🛋️", "living_room")
       },
       {
         pitch: -2,
-        yaw: 165,
+        yaw: 72,
         type: "custom",
         cssClass: "custom-hotspot-nav",
         createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Yatak Odasına Geç 🛏️", "bedroom")
@@ -151,15 +152,15 @@ const SCENES = {
     mapCoords: { x: 50, y: 20 },
     hotSpots: [
       {
-        pitch: -6,
-        yaw: -175,
+        pitch: -7,
+        yaw: 72,
         type: "custom",
         cssClass: "custom-hotspot-nav",
         createTooltipFunc: (hotSpotDiv) => createNavHotspot(hotSpotDiv, "Salona İncele ⬇️", "living_room")
       },
       {
         pitch: 4,
-        yaw: -65,
+        yaw: -60,
         type: "custom",
         cssClass: "custom-hotspot-info",
         createTooltipFunc: (hotSpotDiv) => createInfoHotspot(hotSpotDiv, "Akustik Sedir Çıtalar", "Doğal ahşap sedir paneling ile mükemmel ses akustiği ve dinlendirici koku aroması.")
@@ -183,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Initialize Pannellum 360 viewer (High-Performance Lightweight WebP Edition)
+ * Initialize Pannellum 180° viewer (Ultra-HD 4K Crisp Zoom Edition)
  */
 function initViewer() {
   const pannellumScenes = {};
@@ -195,9 +196,13 @@ function initViewer() {
       panorama: scene.panorama,
       pitch: scene.initialPitch,
       yaw: scene.initialYaw,
-      hfov: 100,
-      minHfov: 60,
-      maxHfov: 120,
+      hfov: 95,
+      minHfov: 72,      // Razor-sharp zoom threshold (avoids pixel interpolation blur)
+      maxHfov: 110,     // Architectural natural wide-angle
+      minYaw: -90,      // Clamped to 180° front-facing arc
+      maxYaw: 90,
+      minPitch: -40,    // Clamped vertical field to avoid polar distortion
+      maxPitch: 40,
       autoLoad: true,
       showZoomCtrl: false,
       showFullscreenCtrl: false,
@@ -210,7 +215,14 @@ function initViewer() {
     default: {
       firstScene: "entrance",
       sceneFadeDuration: 500,
-      autoLoad: true
+      autoLoad: true,
+      minYaw: -90,
+      maxYaw: 90,
+      minPitch: -40,
+      maxPitch: 40,
+      minHfov: 72,
+      maxHfov: 110,
+      hfov: 95
     },
     scenes: pannellumScenes
   });
@@ -446,16 +458,31 @@ function setupHUDControls() {
     btn.addEventListener("touchend", handleRoomSelect);
   });
 
-  // Auto-Rotate Toggle
+  // Auto-Rotate Toggle (Smooth 180° Architectural Swing)
   const btnRotate = document.getElementById("btn-autorotate");
+  let autoRotateInterval = null;
+  let rotateSpeed = -1.2;
+
   if (btnRotate) {
     btnRotate.addEventListener("click", (e) => {
       e.stopPropagation();
       isAutoRotating = !isAutoRotating;
       if (isAutoRotating) {
-        viewer.startAutoRotate(-2);
         btnRotate.classList.add("active");
+        viewer.startAutoRotate(rotateSpeed);
+        autoRotateInterval = setInterval(() => {
+          if (!viewer || !isAutoRotating) return;
+          const currentYaw = viewer.getYaw();
+          if (currentYaw >= 65 && rotateSpeed > 0) {
+            rotateSpeed = -1.2;
+            viewer.startAutoRotate(rotateSpeed);
+          } else if (currentYaw <= -65 && rotateSpeed < 0) {
+            rotateSpeed = 1.2;
+            viewer.startAutoRotate(rotateSpeed);
+          }
+        }, 150);
       } else {
+        if (autoRotateInterval) clearInterval(autoRotateInterval);
         viewer.stopAutoRotate();
         btnRotate.classList.remove("active");
       }
@@ -514,7 +541,7 @@ function setupHUDControls() {
       e.preventDefault();
       showInfoModal(
         "Efe Villa · Mimari Künye",
-        "İskandinav orman dokusu ve donmuş göl kenarında konumlandırılan bu brütalist villa; masif dökme beton, sedir ahşap akustik çıtalar, doğal oyma granit kaya duvarlar ve üç katmanlı yalıtımlı panoramik cam cephe ile tasarlanmıştır. 360° sanal tur motoru ile tüm mekanlar gerçekçi ışık simülasyonuyla gezilebilir hale getirilmiştir."
+        "İskandinav orman dokusu ve donmuş göl kenarında konumlandırılan bu brütalist villa; masif dökme beton, sedir ahşap akustik çıtalar, doğal oyma granit kaya duvarlar ve üç katmanlı yalıtımlı panoramik cam cephe ile tasarlanmıştır. 180° sanal tur motoru ile tüm mekanlar gerçekçi ışık simülasyonuyla gezilebilir hale getirilmiştir."
       );
     });
   }
